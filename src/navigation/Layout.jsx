@@ -13,9 +13,7 @@ export default function Layout({ children }) {
         {/* Navbar */}
         <Navbar />
         {/* Page content here */}
-        <div className="p-6">
-          {children}
-        </div>
+        {children}
       </div>
       <Sidebar />
     </div>
