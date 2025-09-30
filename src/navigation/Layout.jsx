@@ -13,7 +13,9 @@ export default function Layout({ children }) {
         {/* Navbar */}
         <Navbar />
         {/* Page content here */}
-        {children}
+        <div className="p-6">
+          {children}
+        </div>
       </div>
       <Sidebar />
     </div>

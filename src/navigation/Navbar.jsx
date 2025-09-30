@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import menuItems from "./../json/menuItems.json";
+
 export default function Navbar() {
   return (
     <div className="navbar bg-base-300 w-full">
@@ -23,17 +26,15 @@ export default function Navbar() {
         </label>
       </div>
       <div className="mx-2 flex-1 px-2">
-        <a className="btn btn-ghost text-xl">We Invite</a>
+        <Link to="/" className="btn btn-ghost text-xl">We Invite</Link>
       </div>
       <div className="hidden flex-none lg:block">
         <ul className="menu menu-horizontal">
-          {/* Navbar menu content here */}
-          <li>
-            <a>Navbar Item 1</a>
-          </li>
-          <li>
-            <a>Navbar Item 2</a>
-          </li>
+          {menuItems.map((item) => (
+            <li key={item.title}>
+              <Link to={item.link}>{item.title}</Link>
+            </li>
+          ))}
         </ul>
       </div>
     </div>

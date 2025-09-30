@@ -1,13 +1,17 @@
 import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./navigation/Layout";
+import Home from "./pages/Home";
 
 function App() {
   return (
-    <>
+    <Router>
       <Layout>
-        <div className="p-4">Main Content Area</div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
       </Layout>
-    </>
+    </Router>
   );
 }
 
