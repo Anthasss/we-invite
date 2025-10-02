@@ -14,7 +14,7 @@ export default function Catalogue() {
         setSelectedFilter={setSelectedFilter}
       />
 
-      <CatalogueGrid />
+      <CatalogueGrid selectedFilter={selectedFilter} />
     </div>
   )
 }
