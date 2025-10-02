@@ -7,7 +7,7 @@ export default function Catalogue() {
   const [selectedFilter, setSelectedFilter] = useState(catalogueFilters[0])
 
   return (
-    <div className="h-screen w-full flex flex-col items-center justify-center bg-primary"> 
+    <div className="h-auto w-full flex flex-col items-center justify-center bg-primary"> 
       <CatalogueFilters
         filters={catalogueFilters}
         selectedFilter={selectedFilter}
