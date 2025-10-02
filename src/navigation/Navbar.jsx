@@ -3,7 +3,7 @@ import menuItems from "./../json/menuItems.json";
 
 export default function Navbar() {
   return (
-    <div className="navbar bg-transparent w-full">
+    <div className="navbar bg-transparent w-full absolute z-100">
       <div className="flex-none lg:hidden">
         <label
           htmlFor="my-drawer-3"
