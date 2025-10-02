@@ -1,9 +1,72 @@
 [
   {
-    "image": "/3.png",
-    "title": "Adat 1",
+    "image": "/2.png",
+    "title": "Oppenheimer",
+    "price": "75000",
+    "tags": ["Retro", "Vintage"]
+    
+  },
+  {
+    "image": "/4.png",
+    "title": "Blue Hour",
     "price": "75000",
     "tags": ["Minimalis", "Modern"]
+    
+  },
+  {
+    "image": "/5.png",
+    "title": "Golden Hour",
+    "price": "80000",
+    "tags": ["Modern", "Vintage"]
+    
+  },
+  {
+    "image": "/6.png",
+    "title": "Sunset",
+    "price": "75000",
+    "tags": ["Minimalis", "Modern"]
+    
+  },
+  {
+    "image": "/5.png",
+    "title": "Married Life",
+    "price": "75000",
+    "tags": ["Adat", "Modern"]
+    
+  },
+  {
+    "image": "/7.png",
+    "title": "Punkroker",
+    "price": "75000",
+    "tags": ["Retro", "Modern"]
+    
+  },
+  {
+    "image": "/2.png",
+    "title": "Flores Feeling",
+    "price": "75000",
+    "tags": ["Adat", "Minimalis"]
+    
+  },
+  {
+    "image": "/3.png",
+    "title": "Timor Wedding",
+    "price": "75000",
+    "tags": ["Adat", "Modern", "Vintage"]
+    
+  },
+  {
+    "image": "/4.png",
+    "title": "Sumba Pride",
+    "price": "75000",
+    "tags": ["Adat", "Retro", "Vintage"]
+    
+  },
+  {
+    "image": "/5.png",
+    "title": "Morning Light",
+    "price": "75000",
+    "tags": ["Minimalis", "Modern", "Vintage"]
     
   }
 ]
