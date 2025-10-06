@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "title": "Fitur 1",
+    "iconName": "Settings"
+  },
+  {
+    "id": 2,
+    "title": "Fitur 2",
+    "iconName": "Layout"
+  },
+  {
+    "id": 3,
+    "title": "Fitur 3", 
+    "iconName": "Zap"
+  },
+  {
+    "id": 4,
+    "title": "Fitur 4",
+    "iconName": "Headphones"
+  }
+]
