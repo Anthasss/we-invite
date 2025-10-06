@@ -1,5 +1,6 @@
 [
   {
+    "id": "1",
     "image": "/2.png",
     "title": "Oppenheimer",
     "price": "75000",
@@ -7,6 +8,7 @@
     
   },
   {
+    "id": "2",
     "image": "/4.png",
     "title": "Blue Hour",
     "price": "75000",
@@ -14,6 +16,7 @@
     
   },
   {
+    "id": "3",
     "image": "/5.png",
     "title": "Golden Hour",
     "price": "80000",
@@ -21,6 +24,7 @@
     
   },
   {
+    "id": "4",
     "image": "/6.png",
     "title": "Sunset",
     "price": "75000",
@@ -28,6 +32,7 @@
     
   },
   {
+    "id": "5",
     "image": "/5.png",
     "title": "Married Life",
     "price": "75000",
@@ -35,6 +40,7 @@
     
   },
   {
+    "id": "6",
     "image": "/7.png",
     "title": "Punkroker",
     "price": "75000",
@@ -42,6 +48,7 @@
     
   },
   {
+    "id": "7",
     "image": "/2.png",
     "title": "Flores Feeling",
     "price": "75000",
@@ -49,6 +56,7 @@
     
   },
   {
+    "id": "8",
     "image": "/3.png",
     "title": "Timor Wedding",
     "price": "75000",
@@ -56,6 +64,7 @@
     
   },
   {
+    "id": "9",
     "image": "/4.png",
     "title": "Sumba Pride",
     "price": "75000",
@@ -63,6 +72,7 @@
     
   },
   {
+    "id": "10",
     "image": "/5.png",
     "title": "Morning Light",
     "price": "75000",

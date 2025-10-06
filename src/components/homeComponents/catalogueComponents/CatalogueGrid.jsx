@@ -19,6 +19,7 @@ export default function CatalogueGrid({selectedFilter}) {
               image={item.image} 
               title={item.title} 
               price={item.price} 
+              productId={item.id}
             />
           ))}
         </div>
