@@ -34,11 +34,11 @@ export default function MediaFiles() {
         {/* Gallery Section */}
         <div className="w-full">
           <h3 className="text-lg font-medium text-neutral mb-4">Photo Gallery</h3>
-          <div className="w-full grid grid-cols-2 items-center gap-4">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 items-center gap-2 md:gap-4 px-4">
             <div className="w-full">
-              <span className="text-neutral w-full">Image Files:</span>
+              <span className="text-neutral w-full font-medium">Image Files:</span>
             </div>
-            <div>
+            <div className="w-full">
               <input
                 type="file"
                 multiple

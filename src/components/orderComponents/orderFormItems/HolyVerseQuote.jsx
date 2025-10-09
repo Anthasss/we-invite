@@ -16,12 +16,12 @@ export default function HolyVerseQuote() {
       <div className="w-full space-y-6">
         
         {/* Holy Verse Text */}
-        <div className="w-full">
-          <div className="w-full grid grid-cols-2 items-start gap-4">
+        <div className="w-full px-4">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 items-start gap-2 md:gap-4">
             <div className="w-full">
-              <span className="text-neutral w-full">Verse/Quote Text:</span>
+              <span className="text-neutral w-full font-medium">Verse/Quote Text:</span>
             </div>
-            <div>
+            <div className="w-full">
               <textarea
                 value={holyVerseText}
                 onChange={(e) => setHolyVerseText(e.target.value)}

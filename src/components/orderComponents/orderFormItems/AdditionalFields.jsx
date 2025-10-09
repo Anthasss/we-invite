@@ -24,12 +24,12 @@ export default function AdditionalFields() {
         />
 
         {/* Couple's Notes */}
-        <div className="w-full">
-          <div className="w-full grid grid-cols-2 items-start gap-4">
+        <div className="w-full px-4">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 items-start gap-2 md:gap-4">
             <div className="w-full">
-              <span className="text-neutral w-full">Couple's Notes:</span>
+              <span className="text-neutral w-full font-medium">Couple's Notes:</span>
             </div>
-            <div>
+            <div className="w-full">
               <textarea
                 value={couplesNotes}
                 onChange={(e) => setCouplesNotes(e.target.value)}
