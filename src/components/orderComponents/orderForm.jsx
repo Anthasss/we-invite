@@ -1,39 +1,23 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import FormOverview from "./orderFormItems/FormOverview";
 import GroomInformation from "./orderFormItems/GroomInformation";
 import BrideInformation from "./orderFormItems/BrideInformation";
 import EventsInformation from "./orderFormItems/EventsInformation";
 import MediaFiles from "./orderFormItems/MediaFiles";
 import InvitedPeopleList from "./orderFormItems/InvitedPeopleList";
-import HolyVerseQuote from "./orderFormItems/HolyVerseQuote";
-import WeddingGift from "./orderFormItems/WeddingGift";
-import AdditionalFields from "./orderFormItems/AdditionalFields";
 
 export default function OrderForm() {
   const [showOverview, setShowOverview] = useState(true);
-  const [selectedModules, setSelectedModules] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
   
-  // Define all form steps (mandatory + optional)
-  const allFormSteps = useMemo(() => {
-    const mandatory = [
-      { id: "groom", title: "Groom's Information", component: <GroomInformation />, type: "mandatory" },
-      { id: "bride", title: "Bride's Information", component: <BrideInformation />, type: "mandatory" },
-      { id: "events", title: "Events Information", component: <EventsInformation />, type: "mandatory" },
-      { id: "media", title: "Media Files", component: <MediaFiles />, type: "mandatory" },
-      { id: "invitedPeople", title: "Invited People List", component: <InvitedPeopleList />, type: "mandatory" }
-    ];
-    
-    const optional = [
-      { id: "holyVerse", title: "Holy Verse/Quote", component: <HolyVerseQuote />, type: "optional" },
-      { id: "weddingGift", title: "Wedding Gift", component: <WeddingGift />, type: "optional" },
-      { id: "additional", title: "Additional Info", component: <AdditionalFields />, type: "optional" }
-    ];
-    
-    // Include mandatory steps and selected optional steps
-    const selectedOptional = optional.filter(step => selectedModules.includes(step.id));
-    return [...mandatory, ...selectedOptional];
-  }, [selectedModules]);
+  // Define all form steps
+  const allFormSteps = [
+    { id: "groom", title: "Groom's Information", component: <GroomInformation /> },
+    { id: "bride", title: "Bride's Information", component: <BrideInformation /> },
+    { id: "events", title: "Events Information", component: <EventsInformation /> },
+    { id: "media", title: "Media Files", component: <MediaFiles /> },
+    { id: "invitedPeople", title: "Invited People List", component: <InvitedPeopleList /> }
+  ];
   
   const currentFormStep = allFormSteps[currentStep];
   
@@ -70,8 +54,6 @@ export default function OrderForm() {
           <div className="w-full h-full overflow-y-auto overflow-x-hidden min-h-0">
             <FormOverview 
               onContinue={handleContinueFromOverview}
-              selectedModules={selectedModules}
-              setSelectedModules={setSelectedModules}
             />
           </div>
         </div>

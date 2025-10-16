@@ -48,9 +48,9 @@ export default function InvitedPeopleList() {
             Your file should contain the following columns (in this order):
           </p>
           <div className="bg-white border border-purple-300 rounded p-3 text-sm font-mono">
-            <div className="font-bold text-purple-900 mb-1">Name, Email, Phone, Address</div>
-            <div className="text-gray-600">John Doe, john@example.com, +1234567890, 123 Main St</div>
-            <div className="text-gray-600">Jane Smith, jane@example.com, +0987654321, 456 Oak Ave</div>
+            <div className="font-bold text-purple-900 mb-1">Name, Address</div>
+            <div className="text-gray-600">John Doe, 123 Main St</div>
+            <div className="text-gray-600">Jane Smith, 456 Oak Ave</div>
           </div>
         </div>
 
@@ -63,7 +63,7 @@ export default function InvitedPeopleList() {
           <button
             onClick={() => {
               // Create a sample CSV content
-              const csvContent = "Name,Email,Phone,Address\nJohn Doe,john@example.com,+1234567890,123 Main Street\nJane Smith,jane@example.com,+0987654321,456 Oak Avenue";
+              const csvContent = "Name,Address\nJohn Doe,123 Main Street\nJane Smith,456 Oak Avenue";
               const blob = new Blob([csvContent], { type: 'text/csv' });
               const url = window.URL.createObjectURL(blob);
               const a = document.createElement('a');

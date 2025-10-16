@@ -5,8 +5,6 @@ import { useContext } from "react";
 
 export default function MediaFiles() {
   const { 
-    backSound,
-    setBackSound,
     gallery,
     setGallery
   } = useContext(OrderContext);
@@ -14,22 +12,6 @@ export default function MediaFiles() {
   return (
     <OrderFormItem label="Media Files">
       <div className="w-full space-y-6">
-        
-        {/* Back Sound Section */}
-        <div className="w-full">
-          <h3 className="text-lg font-medium text-neutral mb-4">Background Sound</h3>
-          <FormField
-            label="Audio File:"
-            value={backSound}
-            setvalue={setBackSound}
-            type="file"
-          />
-          {backSound && backSound.length > 0 && (
-            <div className="mt-2 text-sm text-gray-600">
-              Selected: {backSound[0].name}
-            </div>
-          )}
-        </div>
 
         {/* Gallery Section */}
         <div className="w-full">
@@ -68,10 +50,9 @@ export default function MediaFiles() {
         <div className="w-full bg-blue-50 border border-blue-200 rounded-md p-4">
           <h4 className="text-sm font-medium text-blue-800 mb-2">File Requirements:</h4>
           <ul className="text-sm text-blue-700 space-y-1">
-            <li>• Background Sound: Audio files (MP3, WAV, etc.)</li>
-            <li>• Gallery: Image files (JPG, PNG, GIF, etc.)</li>
+            <li>• Image files: JPG, PNG, GIF, etc.</li>
             <li>• Maximum file size: 10MB per file</li>
-            <li>• Gallery supports multiple image selection</li>
+            <li>• Supports multiple image selection</li>
           </ul>
         </div>
         
