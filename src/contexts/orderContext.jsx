@@ -51,6 +51,7 @@ export const OrderProvider = ({ children }) => {
   // Media Files
   const [backSound, setBackSound] = useState(null);
   const [gallery, setGallery] = useState([]);
+  const [invitedPeopleList, setInvitedPeopleList] = useState(null);
   
   // ADDITIONAL FIELDS
   
@@ -88,6 +89,7 @@ export const OrderProvider = ({ children }) => {
     // Reset Media
     setBackSound(null);
     setGallery([]);
+    setInvitedPeopleList(null);
     
     // Reset Additional Fields
     setHolyVerseText("");
@@ -140,6 +142,8 @@ export const OrderProvider = ({ children }) => {
     setBackSound,
     gallery,
     setGallery,
+    invitedPeopleList,
+    setInvitedPeopleList,
     
     // Additional Fields
     holyVerseText,

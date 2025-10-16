@@ -12,7 +12,9 @@ export default function Order() {
       <div className="w-full h-auto md:h-screen pt-10">
         <ProductDescription product={product} />
       </div>
-      <OrderForm />
+      <div className="w-full h-screen">
+        <OrderForm />
+      </div>
     </>
   );
 }
