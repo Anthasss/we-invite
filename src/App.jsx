@@ -8,6 +8,7 @@ import Layout from "./navigation/Layout";
 import Footer from "./navigation/Footer";
 import Home from "./pages/Home";
 import Order from "./pages/Order";
+import ProductsPage from "./pages/Admin/productsPage";
 
 function App() {
   return (
@@ -24,6 +25,10 @@ function App() {
               <Route
                 path="/order/:productId"
                 element={<Order />}
+              />
+              <Route
+                path="/admin/products"
+                element={<ProductsPage />}
               />
             </Routes>
             <Footer />
