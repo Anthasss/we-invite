@@ -24,6 +24,7 @@ export const AuthContextProvider = ({ children }) => {
         try {
           const response = await api.post('/api/auth/sync-user', {
             sub: user.sub,
+            name: user.name
           });
 
           console.log('User synced:', response.data);
