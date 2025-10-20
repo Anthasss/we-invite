@@ -12,10 +12,15 @@ export default function ProductsPage() {
 
   return (
     <div className="w-full min-h-screen p-8 pt-16">
-      <PageHeader title="Products Page" />
+      <PageHeader title="Products Page" onSearch={ (value) => console.log(value) } onAction={ () => console.log("Add New") } />
 
       {/* product cards */}
-      <div className="h-screen grid grid-cols-1 md:grid-cols-2 md:grid-rows-3 gap-6 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-6">
+        <ProductCard product={ dummyProduct } />
+        <ProductCard product={ dummyProduct } />
+        <ProductCard product={ dummyProduct } />
+        <ProductCard product={ dummyProduct } />
+        <ProductCard product={ dummyProduct } />
         <ProductCard product={ dummyProduct } />
       </div>
     </div>
