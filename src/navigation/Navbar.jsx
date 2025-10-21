@@ -14,7 +14,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="navbar bg-transparent w-full absolute z-100">
+    <div className="navbar bg-transparent w-full absolute z-100 border-b-2 border-b-primary">
       <div className="flex-none lg:hidden">
         <label
           htmlFor="my-drawer-3"
