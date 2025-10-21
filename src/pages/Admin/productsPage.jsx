@@ -1,17 +1,29 @@
 import { useState } from "react";
 import PageHeader from "../../components/shared/pageHeader";
 import ProductCard from "../../components/admin/productCard";
+import ProductModal from "../../components/admin/productModal";
 import catalogueItems from "../../json/catalogueGridItems.json";
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState(
+    catalogueItems.map(item => ({
+      id: item.id,
+      name: item.title,
+      price: parseInt(item.price),
+      image: item.image,
+      tags: item.tags
+    }))
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
   const itemsPerPage = 6;
 
-  // Filter items based on search query
-  const filteredItems = catalogueItems.filter((item) =>
-    item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+  // Filter products based on search query
+  const filteredItems = products.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    product.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   // Calculate pagination
@@ -26,12 +38,44 @@ export default function ProductsPage() {
     setCurrentPage(1);
   };
 
+  // Handle adding new product
+  const handleAddProduct = () => {
+    setEditingProduct(null);
+    setIsModalOpen(true);
+  };
+
+  // Handle editing product
+  const handleEditProduct = (product) => {
+    setEditingProduct(product);
+    setIsModalOpen(true);
+  };
+
+  // Handle deleting product
+  const handleDeleteProduct = (productId) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      setProducts(prev => prev.filter(p => p.id !== productId));
+    }
+  };
+
+  // Handle saving product (add or update)
+  const handleSaveProduct = (productData) => {
+    if (editingProduct) {
+      // Update existing product
+      setProducts(prev => prev.map(p => 
+        p.id === productData.id ? productData : p
+      ));
+    } else {
+      // Add new product
+      setProducts(prev => [...prev, productData]);
+    }
+  };
+
   return (
     <div className="w-full min-h-screen p-8 pt-16">
       <PageHeader
         title="Products Page"
         onSearch={handleSearch}
-        onAction={() => console.log("Add New")}
+        onAction={handleAddProduct}
       />
 
       {/* product cards */}
@@ -39,13 +83,9 @@ export default function ProductsPage() {
         {currentItems.map((item) => (
           <ProductCard 
             key={item.id}
-            product={{
-              id: item.id,
-              name: item.title,
-              price: parseInt(item.price),
-              image: item.image,
-              tags: item.tags
-            }} 
+            product={item}
+            onEdit={handleEditProduct}
+            onDelete={handleDeleteProduct}
           />
         ))}
       </div>
@@ -75,6 +115,14 @@ export default function ProductsPage() {
           </div>
         </div>
       )}
+
+      {/* Product Modal */}
+      <ProductModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSaveProduct}
+        product={editingProduct}
+      />
     </div>
   );
 }
