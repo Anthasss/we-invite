@@ -16,7 +16,7 @@ export default function ProductModal({ isOpen, onClose, onSave, product = null }
       setFormData({
         name: product.name || "",
         price: product.price || "",
-        image: product.image || "",
+        image: product.image || product.imageUrl || "",
         tags: product.tags ? product.tags.join(", ") : ""
       });
     } else {

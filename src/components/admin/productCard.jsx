@@ -1,9 +1,15 @@
 export default function ProductCard({ product, onEdit, onDelete }) {
+  const imageUrl = product.image || product.imageUrl;
+  // Ensure tags is an array of strings
+  const tags = Array.isArray(product.tags) 
+    ? product.tags.map(tag => typeof tag === 'string' ? tag : tag.name || String(tag))
+    : [];
+  
   return (
     <div className="flex flex-col md:flex-row w-full bg-black/40 rounded-lg shadow-sm overflow-hidden">
       <div className="w-full md:w-48 md:h-auto flex-shrink-0">
         <img 
-          src={product.image} 
+          src={imageUrl} 
           alt={product.name} 
           className="w-full h-full object-cover" 
         />
@@ -12,9 +18,9 @@ export default function ProductCard({ product, onEdit, onDelete }) {
         <div>
           <h2 className="text-lg font-bold mb-2">{product.name}</h2>
           <p className="text-sm text-gray-300 mb-3">Rp. {product.price.toLocaleString()}</p>
-          {product.tags && (
+          {tags.length > 0 && (
             <div className="flex gap-2 flex-wrap mb-3">
-              {product.tags.map((tag, index) => (
+              {tags.map((tag, index) => (
                 <span 
                   key={index} 
                   className="px-2 py-1 text-xs bg-white/10 rounded-full border border-white/20"
