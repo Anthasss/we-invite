@@ -1,4 +1,4 @@
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, onEdit, onDelete }) {
   return (
     <div className="flex flex-col md:flex-row w-full bg-black/40 rounded-lg shadow-sm overflow-hidden">
       <div className="w-full md:w-48 md:h-auto flex-shrink-0">
@@ -26,10 +26,16 @@ export default function ProductCard({ product }) {
           )}
         </div>
         <div className="flex gap-2 justify-end">
-          <button className="px-3 py-1.5 text-sm bg-yellow-500 hover:bg-yellow-600 text-black rounded-md transition-colors">
+          <button 
+            onClick={() => onEdit(product)}
+            className="px-3 py-1.5 text-sm bg-yellow-500 hover:bg-yellow-600 text-black rounded-md transition-colors"
+          >
             Edit
           </button>
-          <button className="px-3 py-1.5 text-sm bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors">
+          <button 
+            onClick={() => onDelete(product.id)}
+            className="px-3 py-1.5 text-sm bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors"
+          >
             Delete
           </button>
         </div>
