@@ -1,13 +1,59 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import GroomInformation from "./orderFormItems/GroomInformation";
 import BrideInformation from "./orderFormItems/BrideInformation";
 import EventsInformation from "./orderFormItems/EventsInformation";
 import MediaFiles from "./orderFormItems/MediaFiles";
 import InvitedPeopleList from "./orderFormItems/InvitedPeopleList";
 import FormStepper from "./FormStepper";
+import { OrderContext } from "../../contexts/orderContext";
+import { createMidtransTransaction } from "../../services/api";
 
 export default function OrderForm() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [snapLoaded, setSnapLoaded] = useState(false);
+  const { productId } = useParams();
+  const { user, isAuthenticated } = useAuth0();
+  const orderContext = useContext(OrderContext);
+
+  // Load Midtrans Snap script dynamically
+  useEffect(() => {
+    const midtransClientKey = import.meta.env.VITE_MIDTRANS_CLIENT_KEY;
+    const snapScriptUrl = import.meta.env.VITE_MIDTRANS_SNAP_URL || 'https://app.sandbox.midtrans.com/snap/snap.js';
+
+    if (!midtransClientKey) {
+      console.error('Midtrans client key is not configured');
+      return;
+    }
+
+    // Check if script is already loaded
+    if (window.snap) {
+      setSnapLoaded(true);
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = snapScriptUrl;
+    script.setAttribute('data-client-key', midtransClientKey);
+    script.onload = () => {
+      setSnapLoaded(true);
+      console.log('Midtrans Snap loaded successfully');
+    };
+    script.onerror = () => {
+      console.error('Failed to load Midtrans Snap script');
+    };
+
+    document.head.appendChild(script);
+
+    return () => {
+      // Cleanup script on unmount
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
+  }, []);
   
   // Define all form steps
   const allFormSteps = [
@@ -29,6 +75,104 @@ export default function OrderForm() {
   const handleBack = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleFinish = async () => {
+    if (!isAuthenticated) {
+      alert("Please log in to complete your order");
+      return;
+    }
+
+    if (!snapLoaded) {
+      alert("Payment system is loading. Please try again in a moment.");
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      // Prepare wedding info from context
+      const weddingInfo = {
+        groom: {
+          fullName: orderContext.groomFullName,
+          nickname: orderContext.groomNickname,
+          fatherName: orderContext.groomFatherName,
+          motherName: orderContext.groomMotherName,
+          childNumber: orderContext.groomChildNumber,
+          totalChildren: orderContext.groomTotalChildren,
+        },
+        bride: {
+          fullName: orderContext.brideFullName,
+          nickname: orderContext.brideNickname,
+          fatherName: orderContext.brideFatherName,
+          motherName: orderContext.brideMotherName,
+          childNumber: orderContext.brideChildNumber,
+          totalChildren: orderContext.brideTotalChildren,
+        },
+        events: orderContext.events,
+        media: {
+          backSound: orderContext.backSound,
+          gallery: orderContext.gallery,
+          invitedPeopleList: orderContext.invitedPeopleList,
+        },
+        additional: {
+          holyVerseText: orderContext.holyVerseText,
+          holyVerseSource: orderContext.holyVerseSource,
+          weddingGiftBankNumber: orderContext.weddingGiftBankNumber,
+          weddingGiftRecipient: orderContext.weddingGiftRecipient,
+          livestreamLink: orderContext.livestreamLink,
+          couplesNotes: orderContext.couplesNotes,
+        },
+      };
+
+      // Prepare payload
+      const payload = {
+        orderId: `ORDER-${Date.now()}`, // Generate unique order ID
+        productId: productId,
+        userId: user.sub,
+        weddingInfo: weddingInfo,
+      };
+
+      // Call the backend API
+      const response = await createMidtransTransaction(payload);
+
+      // Extract token from transaction object
+      const snapToken = response.transaction?.token;
+
+      if (!snapToken) {
+        throw new Error("No Snap token received from server");
+      }
+
+      // Load Midtrans Snap and open payment page
+      if (window.snap) {
+        window.snap.pay(snapToken, {
+          onSuccess: function (result) {
+            console.log("Payment success:", result);
+            alert("Payment successful!");
+            // Optionally reset form or redirect
+            orderContext.resetForm();
+          },
+          onPending: function (result) {
+            console.log("Payment pending:", result);
+            alert("Payment is pending. Please complete your payment.");
+          },
+          onError: function (result) {
+            console.log("Payment error:", result);
+            alert("Payment failed. Please try again.");
+          },
+          onClose: function () {
+            console.log("Payment popup closed");
+          },
+        });
+      } else {
+        throw new Error("Midtrans Snap is not loaded");
+      }
+    } catch (error) {
+      console.error("Error processing order:", error);
+      alert("Failed to process order. Please try again.");
+    } finally {
+      setIsProcessing(false);
     }
   };
   
@@ -75,15 +219,15 @@ export default function OrderForm() {
           />
 
           <button
-            onClick={handleNext}
-            disabled={currentStep === allFormSteps.length - 1}
+            onClick={currentStep === allFormSteps.length - 1 ? handleFinish : handleNext}
+            disabled={isProcessing}
             className={`px-3 md:px-6 py-2 rounded-md font-medium text-sm md:text-base transition-colors ${
-              currentStep === allFormSteps.length - 1
+              isProcessing
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 : 'bg-secondary text-white hover:bg-secondary/80'
             }`}
           >
-            {currentStep === allFormSteps.length - 1 ? 'Finish' : 'Next'}
+            {isProcessing ? 'Processing...' : (currentStep === allFormSteps.length - 1 ? 'Finish' : 'Next')}
           </button>
         </div>
       </div>
