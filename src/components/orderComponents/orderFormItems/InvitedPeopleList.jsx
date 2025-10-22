@@ -77,19 +77,6 @@ export default function InvitedPeopleList() {
             Download Sample Template (CSV)
           </button>
         </div>
-
-        {/* Tips Section */}
-        <div className="w-full bg-green-50 border border-green-200 rounded-md p-4">
-          <h4 className="text-sm font-medium text-green-800 mb-2">Tips:</h4>
-          <ul className="text-sm text-green-700 space-y-1">
-            <li>• Make sure there are no empty rows in your file</li>
-            <li>• Include column headers in the first row</li>
-            <li>• Use UTF-8 encoding for special characters</li>
-            <li>• Maximum file size: 5MB</li>
-            <li>• You can edit your file in Excel, Google Sheets, or any text editor</li>
-          </ul>
-        </div>
-
       </div>
     </OrderFormItem>
   );
