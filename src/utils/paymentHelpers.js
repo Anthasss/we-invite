@@ -47,17 +47,33 @@ export const generateOrderId = () => {
 };
 
 /**
- * Create payment payload for Midtrans
+ * Create payment payload for Midtrans (transaction only)
+ * @param {string} orderId - Order ID
+ * @param {string} productId - Product ID
+ * @param {string} userId - User ID
+ * @returns {Object} Payment payload
+ */
+export const createPaymentPayload = (orderId, productId, userId) => {
+  return {
+    orderId,
+    productId,
+    userId,
+  };
+};
+
+/**
+ * Create order payload for database (after successful payment)
+ * @param {string} orderId - Order ID
  * @param {string} productId - Product ID
  * @param {string} userId - User ID
  * @param {Object} weddingInfo - Wedding information
- * @returns {Object} Payment payload
+ * @returns {Object} Order payload
  */
-export const createPaymentPayload = (productId, userId, weddingInfo) => {
+export const createOrderPayload = (orderId, productId, userId, weddingInfo) => {
   return {
-    orderId: generateOrderId(),
-    productId,
+    orderId,
     userId,
+    productId,
     weddingInfo,
   };
 };

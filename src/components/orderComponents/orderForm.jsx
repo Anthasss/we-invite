@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import FormStepper from "./FormStepper";
+import Toast from "../shared/Toast";
 import { OrderContext } from "../../contexts/orderContext";
 import { useMidtransSnap } from "../../hooks/useMidtransSnap";
 import { useOrderPayment } from "../../hooks/useOrderPayment";
@@ -15,7 +16,7 @@ export default function OrderForm() {
   const { snapLoaded } = useMidtransSnap();
   
   // Handle payment processing
-  const { isProcessing, handlePayment } = useOrderPayment(productId, orderContext, snapLoaded);
+  const { isProcessing, handlePayment, toast, clearToast } = useOrderPayment(productId, orderContext, snapLoaded);
   
   const currentFormStep = formStepsConfig[currentStep];
   const CurrentStepComponent = currentFormStep.component;
@@ -36,6 +37,15 @@ export default function OrderForm() {
   
   return (
     <div className="w-full h-full p-4 md:p-8 pt-0 overflow-hidden">
+      {/* Toast notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={clearToast}
+        />
+      )}
+      
       {/* white background */}
       <div className="w-full h-full bg-primary rounded-xl p-2 md:p-4 md:px-8 grid grid-rows-[auto_auto_1fr_auto] gap-1 md:gap-2 overflow-hidden">
         {/* header */}
