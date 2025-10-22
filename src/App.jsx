@@ -8,7 +8,8 @@ import Layout from "./navigation/Layout";
 import Footer from "./navigation/Footer";
 import Home from "./pages/Home";
 import Order from "./pages/Order";
-import ProductsPage from "./pages/Admin/productsPage";
+import AdminProductsPage from "./pages/Admin/productsPage";
+import AdminOrderPage from "./pages/Admin/ordersPage";
 
 function App() {
   return (
@@ -27,8 +28,12 @@ function App() {
                 element={<Order />}
               />
               <Route
-                path="/admin/products"
-                element={<ProductsPage />}
+                path="/admin/product"
+                element={<AdminProductsPage />}
+              />
+              <Route
+                path="/admin/order"
+                element={<AdminOrderPage />}
               />
             </Routes>
             <Footer />
