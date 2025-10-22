@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useAuthContext } from "../contexts/authContext";
 import menuItems from "./../json/menuItems.json";
 
 export default function Sidebar() {
   const { loginWithRedirect, logout, isAuthenticated, user, isLoading } = useAuth0();
+  const { userRole, roleLoading } = useAuthContext();
 
   const getAvatarUrl = () => {
     if (user?.picture) {
@@ -11,6 +13,25 @@ export default function Sidebar() {
     }
     const fullName = `${user?.given_name || ''} ${user?.family_name || ''}`.trim() || user?.name || user?.email || 'User';
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
+  };
+
+  const getFilteredMenuItems = () => {
+    if (!isAuthenticated || roleLoading) {
+      return menuItems.filter(item => item.link === '/');
+    }
+
+    return menuItems.filter(item => {
+      // Always show Home
+      if (item.link === '/') return true;
+      
+      // Show My Order only for customers
+      if (item.link === '/my-order') return userRole === 'customer';
+      
+      // Show admin routes only for admins
+      if (item.link.startsWith('/admin')) return userRole === 'admin';
+      
+      return false;
+    });
   };
 
   return (
@@ -22,7 +43,7 @@ export default function Sidebar() {
       ></label>
       <ul className="menu bg-secondary min-h-full w-80 p-4 pt-16">
         {/* Sidebar content here */}
-        {menuItems.map((item) => (
+        {getFilteredMenuItems().map((item) => (
           <li key={item.title}>
             <Link to={item.link}>{item.title}</Link>
           </li>

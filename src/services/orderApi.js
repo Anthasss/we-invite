@@ -50,6 +50,20 @@ export const getOrdersByUser = async (userId) => {
 };
 
 /**
+ * Get all orders (admin)
+ * @returns {Promise} Array of all orders
+ */
+export const getAllOrders = async () => {
+  try {
+    const response = await api.get('/api/orders');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching all orders:', error);
+    throw error;
+  }
+};
+
+/**
  * Update order status
  * @param {string} orderId - Order ID
  * @param {string} status - New status
