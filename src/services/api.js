@@ -7,4 +7,15 @@ const api = axios.create({
   },
 });
 
+// Midtrans API functions
+export const createMidtransTransaction = async (payload) => {
+  try {
+    const response = await api.post('/api/midtrans/create-transaction', payload);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating Midtrans transaction:', error);
+    throw error;
+  }
+};
+
 export default api;

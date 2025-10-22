@@ -69,7 +69,9 @@ export default function Navbar() {
           ) : (
             <button 
               className="btn bg-transparent hover:bg-stone-900/20 border-none"
-              onClick={() => loginWithRedirect()}
+              onClick={() => loginWithRedirect({
+                appState: { returnTo: window.location.pathname }
+              })}
             >
               Log In
             </button>

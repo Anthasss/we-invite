@@ -5,12 +5,21 @@ import './index.css'
 import App from './App.jsx'
 import { auth0Config } from './auth0-config'
 
+const onRedirectCallback = (appState) => {
+  window.history.replaceState(
+    {},
+    document.title,
+    appState?.returnTo || window.location.pathname
+  );
+};
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Auth0Provider
       domain={auth0Config.domain}
       clientId={auth0Config.clientId}
       authorizationParams={auth0Config.authorizationParams}
+      onRedirectCallback={onRedirectCallback}
     >
       <App />
     </Auth0Provider>
