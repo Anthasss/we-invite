@@ -6,8 +6,13 @@ import { AuthContextProvider } from "./contexts/authContext";
 
 import Layout from "./navigation/Layout";
 import Footer from "./navigation/Footer";
+
+// public pages
 import Home from "./pages/Home";
 import Order from "./pages/Order";
+import MyOrder from "./pages/MyOrder";
+
+// admin pages
 import AdminProductsPage from "./pages/Admin/productsPage";
 import AdminOrderPage from "./pages/Admin/ordersPage";
 
@@ -22,10 +27,13 @@ function App() {
                 path="/"
                 element={<Home />}
               />
-              {/* should use api to fetch product from id */}
               <Route
                 path="/order/:productId"
                 element={<Order />}
+              />
+              <Route
+                path="/my-order"
+                element={<MyOrder />}
               />
               <Route
                 path="/admin/product"
