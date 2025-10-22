@@ -7,7 +7,7 @@ import Toast from "../../components/shared/Toast";
 import { getProducts, createProduct, updateProduct, deleteProduct } from "../../services/productApi";
 import catalogueItems from "../../json/catalogueGridItems.json";
 
-export default function ProductsPage() {
+export default function AdminProductsPage() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
