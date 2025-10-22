@@ -36,11 +36,11 @@ function App() {
                 element={<MyOrder />}
               />
               <Route
-                path="/admin/product"
+                path="/admin/products"
                 element={<AdminProductsPage />}
               />
               <Route
-                path="/admin/order"
+                path="/admin/orders"
                 element={<AdminOrderPage />}
               />
             </Routes>

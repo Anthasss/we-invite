@@ -1,4 +1,6 @@
 [
   {"title": "Home", "link": "/"},
-  {"title": "My Order", "link": "/my-order"}
+  {"title": "My Order", "link": "/my-order"},
+  {"title": "Orders", "link": "/admin/orders"},
+  {"title": "Products", "link": "/admin/products"}
 ]
