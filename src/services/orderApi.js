@@ -78,3 +78,18 @@ export const updateOrderStatus = async (orderId, status) => {
     throw error;
   }
 };
+
+/**
+ * Get order status from Midtrans
+ * @param {string} orderId - Order ID
+ * @returns {Promise} Order status data
+ */
+export const getOrderStatus = async (orderId) => {
+  try {
+    const response = await api.get(`/api/midtrans/transaction/${orderId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching order status:', error);
+    throw error;
+  }
+};

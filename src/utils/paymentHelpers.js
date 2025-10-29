@@ -117,3 +117,58 @@ export const openSnapPayment = (snapToken, callbacks = {}) => {
     },
   });
 };
+
+/**
+ * Poll for order status after payment
+ * @param {string} orderId - Order ID to poll
+ * @param {Function} getOrderStatus - Function to get order status
+ * @param {Object} callbacks - Callbacks for different status outcomes
+ * @param {Function} callbacks.onSuccess - Called when order status is 'diterima'
+ * @param {Function} callbacks.onFailed - Called when order status is 'dibatalkan'
+ * @param {Function} callbacks.onTimeout - Called when max attempts reached
+ * @param {number} maxAttempts - Maximum number of polling attempts (default: 20)
+ * @param {number} interval - Interval between polls in milliseconds (default: 2000)
+ */
+export const pollOrderStatus = async (
+  orderId,
+  getOrderStatus,
+  callbacks = {},
+  maxAttempts = 20,
+  interval = 2000
+) => {
+  const {
+    onSuccess = () => {},
+    onFailed = () => {},
+    onTimeout = () => {},
+  } = callbacks;
+
+  for (let i = 0; i < maxAttempts; i++) {
+    await new Promise(resolve => setTimeout(resolve, interval));
+    
+    try {
+      const { order } = await getOrderStatus(orderId);
+      
+      if (order.status === 'diterima') {
+        // Payment confirmed!
+        onSuccess(order);
+        break;
+      } else if (order.status === 'dibatalkan') {
+        // Payment failed
+        onFailed(order);
+        break;
+      }
+      
+      // If status is still 'menunggu pembayaran', continue polling
+      console.log(`Polling attempt ${i + 1}/${maxAttempts}: Status is ${order.status}`);
+    } catch (error) {
+      console.error('Error polling order status:', error);
+      // Continue polling even if there's an error
+    }
+  }
+  
+  // If we've exhausted all attempts without a final status
+  if (maxAttempts > 0) {
+    console.log('Max polling attempts reached');
+    onTimeout();
+  }
+};
