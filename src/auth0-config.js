@@ -4,4 +4,6 @@ export const auth0Config = {
   authorizationParams: {
     redirect_uri: window.location.origin,
   },
+  cacheLocation: 'localstorage', // Persist auth state across page reloads
+  useRefreshTokens: true, // Enable refresh tokens for better session management
 };
