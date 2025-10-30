@@ -2,7 +2,7 @@ export default function CatalogueFilters({ filters, selectedFilter, setSelectedF
   return (
     <>
       <div className="divider divider-start divider-secondary divider-lg text-secondary text-2xl px-8 pt-8">Catalogue</div>
-      <div className="w-full h-auto flex items-center justify-start p-8 gap-4">
+      <div className="w-full h-auto flex items-center justify-start p-8 gap-4 overflow-x-scroll">
         {filters.map((filter) => (
           <button
             key={filter}
