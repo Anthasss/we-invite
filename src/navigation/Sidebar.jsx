@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthContext } from "../contexts/authContext";
-import menuItems from "./../json/menuItems.json";
+import { menuItems } from "../config/menuItems";
 
 export default function Sidebar() {
   const { loginWithRedirect, logout, isAuthenticated, user, isLoading } = useAuth0();
@@ -39,11 +39,17 @@ export default function Sidebar() {
       ></label>
       <ul className="menu bg-secondary min-h-full w-80 p-4 pt-16">
         {/* Sidebar content here */}
-        {getFilteredMenuItems().map((item) => (
-          <li key={item.title}>
-            <Link to={item.link}>{item.title}</Link>
-          </li>
-        ))}
+        {getFilteredMenuItems().map((item) => {
+          const Icon = item.icon;
+          return (
+            <li key={item.title}>
+              <Link to={item.link} className="flex items-center gap-2">
+                {Icon && <Icon size={20} />}
+                {item.title}
+              </Link>
+            </li>
+          );
+        })}
         
         {!isLoading && (
           <>

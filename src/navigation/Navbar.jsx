@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthContext } from "../contexts/authContext";
-import menuItems from "./../json/menuItems.json";
+import { menuItems } from "../config/menuItems";
 
 export default function Navbar() {
   const { loginWithRedirect, logout, isAuthenticated, user, isLoading } = useAuth0();
@@ -55,11 +55,17 @@ export default function Navbar() {
       </div>
       <div className="hidden flex-none lg:block">
         <ul className="menu menu-horizontal">
-          {getFilteredMenuItems().map((item) => (
-            <li key={item.title}>
-              <Link className="btn bg-transparent hover:bg-stone-900/20 border-none" to={item.link}>{item.title}</Link>
-            </li>
-          ))}
+          {getFilteredMenuItems().map((item) => {
+            const Icon = item.icon;
+            return (
+              <li key={item.title}>
+                <Link className="btn bg-transparent hover:bg-stone-900/20 border-none flex items-center gap-2" to={item.link}>
+                  {Icon && <Icon size={20} />}
+                  {item.title}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
       {!isLoading && (
