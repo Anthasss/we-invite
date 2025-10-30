@@ -58,7 +58,7 @@ export default function CatalogueGrid({selectedFilter}) {
           </div>
         </div>
       ) : filteredItems.length > 0 ? (
-        <div className="grid gap-4 grid-flow-row md:grid-rows-2 md:grid-cols-6">
+        <div className="grid gap-4 grid-flow-row md:grid-cols-6">
           {filteredItems.map((item, index) => (
             <CatalogueGridItem 
               key={item.id || index} 
