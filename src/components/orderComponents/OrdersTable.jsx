@@ -8,7 +8,7 @@ export default function OrdersTable({ orders }) {
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto bg-black/20">
       <table className="table">
         <thead>
           <tr>
