@@ -13,22 +13,18 @@ export default function Navbar() {
   };
 
   const getFilteredMenuItems = () => {
-    if (!isAuthenticated || roleLoading) {
-      return menuItems.filter(item => item.link === '/');
+    const currentRole = isAuthenticated ? userRole : 'guest';
+    
+    if (roleLoading) {
+      // While loading, only show items available to guests
+      return menuItems.filter(item => 
+        item.allowedRoles && item.allowedRoles.includes('guest')
+      );
     }
 
-    return menuItems.filter(item => {
-      // Always show Home
-      if (item.link === '/') return true;
-      
-      // Show My Order only for customers
-      if (item.link === '/my-order') return userRole === 'customer';
-      
-      // Show admin routes only for admins
-      if (item.link.startsWith('/admin')) return userRole === 'admin';
-      
-      return false;
-    });
+    return menuItems.filter(item => 
+      item.allowedRoles && item.allowedRoles.includes(currentRole)
+    );
   };
 
   return (
