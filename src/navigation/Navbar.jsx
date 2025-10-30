@@ -8,9 +8,6 @@ export default function Navbar() {
   const { userRole, roleLoading } = useAuthContext();
 
   const getAvatarUrl = () => {
-    if (user?.picture) {
-      return user.picture;
-    }
     const fullName = `${user?.given_name || ''} ${user?.family_name || ''}`.trim() || user?.name || user?.email || 'User';
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
   };
@@ -35,7 +32,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="navbar bg-transparent w-full absolute z-100 border-b-2 border-b-primary">
+    <div className="navbar bg-transparent w-full absolute z-100">
       <div className="flex-none lg:hidden">
         <label
           htmlFor="my-drawer-3"
@@ -70,7 +67,7 @@ export default function Navbar() {
         </ul>
       </div>
       {!isLoading && (
-        <div className="flex-none">
+        <div className="flex-none hidden md:block">
           {isAuthenticated ? (
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
