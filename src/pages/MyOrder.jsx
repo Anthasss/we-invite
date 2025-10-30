@@ -12,27 +12,27 @@ export default function MyOrder() {
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const fetchOrders = async () => {
+    if (!isAuthenticated || !user?.sub) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const data = await getOrdersByUser(user.sub);
+      setOrders(data);
+      setFilteredOrders(data);
+      setError(null);
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+      setError('Failed to load orders');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchOrders = async () => {
-      if (!isAuthenticated || !user?.sub) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        setLoading(true);
-        const data = await getOrdersByUser(user.sub);
-        setOrders(data);
-        setFilteredOrders(data);
-        setError(null);
-      } catch (err) {
-        console.error('Error fetching orders:', err);
-        setError('Failed to load orders');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (!isLoading) {
       fetchOrders();
     }
@@ -55,6 +55,11 @@ export default function MyOrder() {
 
   const handleSearch = (query) => {
     setSearchQuery(query);
+  };
+
+  const handlePaymentComplete = () => {
+    // Refresh orders after payment
+    fetchOrders();
   };
 
   if (isLoading || loading) {
@@ -101,7 +106,7 @@ export default function MyOrder() {
             <p className="text-gray-600 text-lg">You don't have any orders yet.</p>
           </div>
         ) : (
-          <OrdersTable orders={filteredOrders} />
+          <OrdersTable orders={filteredOrders} onPaymentComplete={handlePaymentComplete} />
         )}
       </div>
     </div>
