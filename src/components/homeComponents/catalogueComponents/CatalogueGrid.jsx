@@ -1,43 +1,6 @@
-import { useState, useEffect } from "react";
 import CatalogueGridItem from "./CatalogueGridItem";
-import { getProducts } from "../../../services/productApi";
-import CatalogueGridItems from "../../../json/catalogueGridItems.json";
 
-export default function CatalogueGrid({selectedFilter}) {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const data = await getProducts();
-      // Transform API response to match component format
-      const transformedProducts = data.map(item => ({
-        id: item.id,
-        title: item.name,
-        price: item.price,
-        image: item.imageUrl || item.image,
-        tags: Array.isArray(item.tags) 
-          ? item.tags.map(tag => typeof tag === 'string' ? tag : tag.name || String(tag))
-          : []
-      }));
-      setProducts(transformedProducts);
-    } catch (err) {
-      console.error('Failed to fetch products:', err);
-      setError('Failed to load products. Using local data.');
-      // Fallback to local JSON data
-      setProducts(CatalogueGridItems);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+export default function CatalogueGrid({ products, selectedFilter, isLoading, error }) {
   // Filter items based on selectedFilter
   const filteredItems = selectedFilter === "Semua" 
     ? products 
