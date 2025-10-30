@@ -1,7 +1,8 @@
 import faqs from "../../json/faqs.json";
 export default function FrequentlyAskedQuestion() {
   return (
-    <div className="w-full h-auto bg-secondary flex items-center justify-center p-8">
+    <div className="w-full h-auto bg-black/20 flex items-center justify-center p-8">
+      {/* white card */}
       <div className="w-4/5 p-12 bg-primary rounded-xl flex flex-col justify-center items-center">
         {/* title */}
         <h2 className="text-4xl text-neutral font-great-vibes">Frequently Asked Questions</h2>
