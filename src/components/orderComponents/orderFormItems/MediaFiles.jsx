@@ -25,7 +25,7 @@ export default function MediaFiles() {
                 type="file"
                 multiple
                 accept="image/*"
-                onChange={(e) => setGallery(e.target.files)}
+                onChange={(e) => setGallery(Array.from(e.target.files))}
                 className="input input-neutral w-full"
               />
             </div>

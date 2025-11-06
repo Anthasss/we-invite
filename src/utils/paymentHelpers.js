@@ -22,11 +22,8 @@ export const prepareWeddingInfo = (orderContext) => {
       totalChildren: orderContext.brideTotalChildren,
     },
     events: orderContext.events,
-    media: {
-      backSound: orderContext.backSound,
-      gallery: orderContext.gallery,
-      invitedPeopleList: orderContext.invitedPeopleList,
-    },
+    // Note: File objects (backSound, gallery, invitedPeopleList) are sent separately in FormData
+    // They should not be included in weddingInfo JSON
     additional: {
       holyVerseText: orderContext.holyVerseText,
       holyVerseSource: orderContext.holyVerseSource,
