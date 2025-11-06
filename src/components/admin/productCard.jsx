@@ -1,5 +1,5 @@
 export default function ProductCard({ product, onEdit, onDelete }) {
-  const imageUrl = product.image || product.imageUrl;
+  const imageUrl = product.thumbnail;
   // Ensure tags is an array of strings
   const tags = Array.isArray(product.tags) 
     ? product.tags.map(tag => typeof tag === 'string' ? tag : tag.name || String(tag))

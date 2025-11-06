@@ -19,12 +19,13 @@ export default function Catalogue() {
       setIsLoading(true)
       setError(null)
       const data = await getProducts()
+      console.log('Fetched products:', data)
       // Transform API response to match component format
       const transformedProducts = data.map(item => ({
         id: item.id,
         title: item.name,
         price: item.price,
-        image: item.imageUrl || item.image,
+        image: item.thumbnail,
         tags: Array.isArray(item.tags) 
           ? item.tags.map(tag => typeof tag === 'string' ? tag : tag.name || String(tag))
           : []

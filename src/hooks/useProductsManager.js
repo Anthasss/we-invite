@@ -16,7 +16,8 @@ export const useProductsManager = () => {
     id: item.id,
     name: item.name,
     price: item.price,
-    image: item.imageUrl,
+    thumbnail: item.thumbnail,
+    gallery: item.galleryUrls || [],
     tags: Array.isArray(item.tags)
       ? item.tags.map(tag => typeof tag === 'string' ? tag : tag.name || String(tag))
       : []
