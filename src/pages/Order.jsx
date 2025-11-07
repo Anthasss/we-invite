@@ -21,16 +21,18 @@ export default function Order() {
       setError(null);
       const data = await getProductById(productId);
       // Transform API response to match component format
+      console.log("data", data)
       const transformedProduct = {
         id: data.id,
         title: data.name,
         price: data.price,
-        image: data.imageUrl || data.image,
+        image: [data.thumbnail, ...data.galleryUrls],
         tags: Array.isArray(data.tags) 
           ? data.tags.map(tag => typeof tag === 'string' ? tag : tag.name || String(tag))
           : []
       };
       setProduct(transformedProduct);
+      console.log("transformed product",transformedProduct);
     } catch (err) {
       console.error('Failed to fetch product:', err);
       setError('Failed to load product. Using local data.');
