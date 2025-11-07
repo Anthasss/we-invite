@@ -148,15 +148,42 @@ export const useOrderPayment = (productId, orderContext, snapLoaded) => {
       }
 
       // Step 3: Create order with snapToken included
-      const orderPayload = createOrderPayload(orderId, productId, user.sub, weddingInfo);
-      console.log("Creating order with payload:", {
-        ...orderPayload,
-        snapToken,
-      });
-      await createOrder({
-        ...orderPayload,
-        snapToken, // Include snapToken in the initial creation
-      });
+      // Build FormData to support file uploads
+      const formData = new FormData();
+      
+      // Add basic order fields (matching the curl example)
+      formData.append('orderId', orderId);
+      formData.append('userId', user.sub);
+      formData.append('productId', productId);
+      formData.append('snapToken', snapToken);
+      
+      // Add wedding info as JSON string
+      formData.append('weddingInfo', JSON.stringify(weddingInfo));
+      
+      // Track if any files are added
+      let hasFiles = false;
+      
+      // Add gallery images (up to 9 images)
+      if (orderContext.gallery && Array.isArray(orderContext.gallery) && orderContext.gallery.length > 0) {
+        const maxImages = Math.min(orderContext.gallery.length, 9);
+        for (let i = 0; i < maxImages; i++) {
+          const imageFile = orderContext.gallery[i];
+          if (imageFile instanceof File) {
+            formData.append('images', imageFile);
+            hasFiles = true;
+          }
+        }
+      }
+
+      // Debug: Log FormData contents
+      console.log("FormData contents:");
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ':', pair[1]);
+      }
+      console.log("Has files:", hasFiles);
+
+      console.log("Creating order with FormData");
+      await createOrder(formData);
       console.log("Order created successfully with snapToken:", orderId);
 
       // Step 4: Open Midtrans Snap payment popup

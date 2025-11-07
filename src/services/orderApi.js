@@ -2,19 +2,18 @@ import api from './api';
 
 /**
  * Create a new order
- * @param {Object} payload - Order data
- * @param {string} payload.orderId - Order ID
- * @param {string} payload.userId - User ID
- * @param {string} payload.productId - Product ID
- * @param {Object} payload.weddingInfo - Wedding information
+ * @param {Object|FormData} payload - Order data (can be object or FormData for file uploads)
  * @returns {Promise} Order creation response
  */
 export const createOrder = async (payload) => {
   try {
+    // For FormData, don't set Content-Type - let Axios handle it automatically
+    // This ensures the boundary is set correctly
     const response = await api.post('/api/orders', payload);
     return response.data;
   } catch (error) {
     console.error('Error creating order:', error);
+    console.error('Backend response:', error.response?.data);
     throw error;
   }
 };

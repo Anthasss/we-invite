@@ -4,11 +4,14 @@ export default function ProductModal({ isOpen, onClose, onSave, product = null }
   const [formData, setFormData] = useState({
     name: "",
     price: "",
-    image: "",
+    thumbnail: null,
+    gallery: [],
     tags: ""
   });
 
   const [errors, setErrors] = useState({});
+  const [thumbnailPreview, setThumbnailPreview] = useState("");
+  const [galleryPreviews, setGalleryPreviews] = useState([]);
 
   // Populate form when editing
   useEffect(() => {
@@ -16,16 +19,24 @@ export default function ProductModal({ isOpen, onClose, onSave, product = null }
       setFormData({
         name: product.name || "",
         price: product.price || "",
-        image: product.image || product.imageUrl || "",
+        thumbnail: null,
+        gallery: [],
         tags: product.tags ? product.tags.join(", ") : ""
       });
+      // Set preview for existing thumbnail
+      setThumbnailPreview(product.thumbnail || product.image || product.imageUrl || "");
+      // Set previews for existing gallery
+      setGalleryPreviews(product.gallery || []);
     } else {
       setFormData({
         name: "",
         price: "",
-        image: "",
+        thumbnail: null,
+        gallery: [],
         tags: ""
       });
+      setThumbnailPreview("");
+      setGalleryPreviews([]);
     }
     setErrors({});
   }, [product, isOpen]);
@@ -42,6 +53,30 @@ export default function ProductModal({ isOpen, onClose, onSave, product = null }
     }
   };
 
+  const handleThumbnailChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData(prev => ({ ...prev, thumbnail: file }));
+      setThumbnailPreview(URL.createObjectURL(file));
+      if (errors.thumbnail) {
+        setErrors(prev => ({ ...prev, thumbnail: "" }));
+      }
+    }
+  };
+
+  const handleGalleryChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length > 5) {
+      setErrors(prev => ({ ...prev, gallery: "Maximum 5 gallery images allowed" }));
+      return;
+    }
+    setFormData(prev => ({ ...prev, gallery: files }));
+    setGalleryPreviews(files.map(file => URL.createObjectURL(file)));
+    if (errors.gallery) {
+      setErrors(prev => ({ ...prev, gallery: "" }));
+    }
+  };
+
   const validate = () => {
     const newErrors = {};
     
@@ -53,8 +88,9 @@ export default function ProductModal({ isOpen, onClose, onSave, product = null }
       newErrors.price = "Please enter a valid price";
     }
     
-    if (!formData.image.trim()) {
-      newErrors.image = "Image URL is required";
+    // Only require thumbnail for new products
+    if (!product && !formData.thumbnail) {
+      newErrors.thumbnail = "Thumbnail image is required";
     }
 
     setErrors(newErrors);
@@ -69,25 +105,28 @@ export default function ProductModal({ isOpen, onClose, onSave, product = null }
     }
 
     const productData = {
-      id: product?.id || Date.now(),
+      id: product?.id,
       name: formData.name.trim(),
       price: Number(formData.price),
-      image: formData.image.trim(),
+      thumbnail: formData.thumbnail,
+      gallery: formData.gallery,
       tags: formData.tags.split(",").map(tag => tag.trim()).filter(tag => tag)
     };
 
     onSave(productData);
-    onClose();
   };
 
   const handleClose = () => {
     setFormData({
       name: "",
       price: "",
-      image: "",
+      thumbnail: null,
+      gallery: [],
       tags: ""
     });
     setErrors({});
+    setThumbnailPreview("");
+    setGalleryPreviews([]);
     onClose();
   };
 
@@ -141,32 +180,60 @@ export default function ProductModal({ isOpen, onClose, onSave, product = null }
             )}
           </div>
 
-          {/* Image URL */}
+          {/* Thumbnail Image */}
           <div className="form-control w-full mb-4">
             <label className="label">
-              <span className="label-text">Image URL</span>
+              <span className="label-text">Thumbnail Image {!product && <span className="text-error">*</span>}</span>
             </label>
             <input
-              type="text"
-              name="image"
-              value={formData.image}
-              onChange={handleChange}
-              placeholder="Enter image URL"
-              className={`input input-bordered w-full ${errors.image ? 'input-error' : ''}`}
+              type="file"
+              accept="image/*"
+              onChange={handleThumbnailChange}
+              className={`file-input file-input-bordered w-full ${errors.thumbnail ? 'file-input-error' : ''}`}
             />
-            {errors.image && (
+            {errors.thumbnail && (
               <label className="label">
-                <span className="label-text-alt text-error">{errors.image}</span>
+                <span className="label-text-alt text-error">{errors.thumbnail}</span>
               </label>
             )}
-            {formData.image && (
+            {thumbnailPreview && (
               <div className="mt-2">
                 <img 
-                  src={formData.image} 
-                  alt="Preview" 
+                  src={thumbnailPreview} 
+                  alt="Thumbnail Preview" 
                   className="w-32 h-32 object-cover rounded"
-                  onError={(e) => e.target.style.display = 'none'}
                 />
+              </div>
+            )}
+          </div>
+
+          {/* Gallery Images */}
+          <div className="form-control w-full mb-4">
+            <label className="label">
+              <span className="label-text">Gallery Images (up to 5)</span>
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleGalleryChange}
+              className={`file-input file-input-bordered w-full ${errors.gallery ? 'file-input-error' : ''}`}
+            />
+            {errors.gallery && (
+              <label className="label">
+                <span className="label-text-alt text-error">{errors.gallery}</span>
+              </label>
+            )}
+            {galleryPreviews.length > 0 && (
+              <div className="mt-2 flex gap-2 flex-wrap">
+                {galleryPreviews.map((preview, index) => (
+                  <img 
+                    key={index}
+                    src={preview} 
+                    alt={`Gallery Preview ${index + 1}`} 
+                    className="w-20 h-20 object-cover rounded"
+                  />
+                ))}
               </div>
             )}
           </div>

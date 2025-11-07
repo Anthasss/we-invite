@@ -26,12 +26,30 @@ export const getProductById = async (id) => {
 // Create a new product
 export const createProduct = async (productData) => {
   try {
-    const response = await api.post('/api/products', {
-      name: productData.name,
-      price: productData.price,
-      imageUrl: productData.image,
-      tags: productData.tags
-    });
+    const formData = new FormData();
+    
+    // Add basic fields
+    formData.append('name', productData.name);
+    formData.append('price', productData.price);
+    formData.append('tags', JSON.stringify(productData.tags));
+    
+    // Add thumbnail image (required)
+    if (productData.thumbnail instanceof File) {
+      formData.append('thumbnail', productData.thumbnail);
+    }
+    
+    // Add gallery images (up to 5, optional)
+    if (productData.gallery && Array.isArray(productData.gallery)) {
+      const maxGallery = Math.min(productData.gallery.length, 5);
+      for (let i = 0; i < maxGallery; i++) {
+        const galleryFile = productData.gallery[i];
+        if (galleryFile instanceof File) {
+          formData.append('gallery', galleryFile);
+        }
+      }
+    }
+    
+    const response = await api.post('/api/products', formData);
     return response.data;
   } catch (error) {
     console.error('Error creating product:', error);
@@ -42,12 +60,30 @@ export const createProduct = async (productData) => {
 // Update an existing product
 export const updateProduct = async (id, productData) => {
   try {
-    const response = await api.put(`/api/products/${id}`, {
-      name: productData.name,
-      price: productData.price,
-      imageUrl: productData.image,
-      tags: productData.tags
-    });
+    const formData = new FormData();
+    
+    // Add basic fields
+    formData.append('name', productData.name);
+    formData.append('price', productData.price);
+    formData.append('tags', JSON.stringify(productData.tags));
+    
+    // Add thumbnail image if provided (optional for updates)
+    if (productData.thumbnail instanceof File) {
+      formData.append('thumbnail', productData.thumbnail);
+    }
+    
+    // Add gallery images if provided (up to 5, optional)
+    if (productData.gallery && Array.isArray(productData.gallery)) {
+      const maxGallery = Math.min(productData.gallery.length, 5);
+      for (let i = 0; i < maxGallery; i++) {
+        const galleryFile = productData.gallery[i];
+        if (galleryFile instanceof File) {
+          formData.append('gallery', galleryFile);
+        }
+      }
+    }
+    
+    const response = await api.put(`/api/products/${id}`, formData);
     return response.data;
   } catch (error) {
     console.error('Error updating product:', error);
